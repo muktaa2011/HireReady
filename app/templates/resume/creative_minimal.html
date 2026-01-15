@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ r.full_name }}</title>
+
+    <style>
+        body {
+            font-family: "Times New Roman", serif;
+            background: #ffffff;
+            color: #000;
+            padding: 20px;
+        }
+
+        .resume {
+            border: 6px double #1e3a8a;
+            padding: 20px;
+        }
+
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .header-table td {
+            border: 1px solid #000;
+            vertical-align: middle;
+            padding: 8px;
+        }
+
+        .name {
+            font-size: 26px;
+            font-weight: bold;
+            text-align: center;
+            color: #7c2d12;
+        }
+
+        .logo {
+            width: 110px;
+        }
+
+        .photo {
+            width: 120px;
+            height: 140px;
+            object-fit: cover;
+            border: 1px solid #000;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+        }
+
+        .info-table td {
+            padding: 6px;
+            border: 1px solid #000;
+        }
+
+        h2 {
+            color: #4338ca;
+            border-bottom: 2px solid #4338ca;
+            padding-bottom: 4px;
+            margin-top: 25px;
+            font-size: 20px;
+        }
+
+        .section {
+            margin-top: 10px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        table.edu {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        table.edu th,
+        table.edu td {
+            border: 1px solid #000;
+            padding: 6px;
+            text-align: center;
+        }
+
+        ul {
+            margin: 5px 0 0 18px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+        }
+
+        .signature {
+            float: right;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="resume">
+
+    <!-- HEADER -->
+    <table class="header-table">
+        <tr>
+            <td rowspan="3" style="width:120px; text-align:center;">
+                <img src="https://media.licdn.com/dms/image/v2/C4E0BAQF3gOSUQDzepQ/company-logo_200_200/company-logo_200_200/0/1631331966632?e=2147483647&v=beta&t=502onIzEaPWBmwPHBq1u8WpyG8U9yWNajsh646jvtnI" class="logo">
+            </td>
+
+            <td colspan="3" class="name">
+                {{ r.full_name }}
+            </td>
+
+            <td rowspan="3" style="width:140px; text-align:center;">
+                {% if r.photo %}
+                    <img src="{{ r.photo.url }}" class="photo">
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td>📍 {{ r.address }}</td>
+            <td>🎂 {{ r.dob }}</td>
+            <td>✉ {{ r.email }}</td>
+        </tr>
+
+        <tr>
+            <td>📞 {{ r.mobile }}</td>
+            <td colspan="2">🔗 {{ r.linkedin }}</td>
+        </tr>
+    </table>
+
+    <!-- CAREER OBJECTIVE -->
+    <h2>🎯Career Objective</h2>
+    <div class="section">
+        {{ r.career_objective }}
+    </div>
+
+    <!-- EDUCATION -->
+    <h2>🎓Education</h2>
+    <table class="edu">
+        <tr>
+            <th>Qualification</th>
+            <th>Year</th>
+            <th>College</th>
+            <th>University</th>
+            <th>% / CGPA</th>
+            <th>Class</th>
+        </tr>
+
+        {% for row in education_rows %}
+        <tr>
+            <td>{{ row.qualification }}</td>
+            <td>{{ row.year }}</td>
+            <td>{{ row.college }}</td>
+            <td>{{ row.university }}</td>
+            <td>{{ row.cgpa }}</td>
+            <td>{{ row.class }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- ACHIEVEMENTS -->
+    <h2>🏆Achievements</h2>
+    <ul>
+        {% for a in achievements_list %}
+            <li>{{ a }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- CERTIFICATIONS -->
+    <h2>📜Certifications</h2>
+    <ul>
+        {% for c in certifications_list %}
+            <li>{{ c }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- LANGUAGES -->
+    <h2>🌐Languages</h2>
+    <div class="section">
+        {{ r.languages }}
+    </div>
+
+    <!-- SOFTWARE SKILLS -->
+    <h2>🛠Software Skills</h2>
+    <ul>
+        {% for s in skills_list %}
+            <li>{{ s }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- PROJECT -->
+    <h2>💻Project</h2>
+    <div class="section">
+        {{ r.projects }}
+    </div>
+
+    <!-- STRENGTH -->
+    
+
+    <!-- HOBBIES -->
+    <h2>🎨Hobbies</h2>
+    <div class="section">
+        {{ r.hobbies }}
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>Date:</p>
+        <p>Place: Sangamner</p>
+
+        <p class="signature">
+            ({{ r.full_name }})
+        </p>
+    </div>
+
+</div>
+<div style="margin-top: 30px; text-align: center; padding: 20px;">
+    <a href="{% url 'resume_pdf' r.id template_slug %}" style="display: inline-block; padding: 12px 24px; background: #d97706; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+        Generate PDF
+    </a>
+</div>
+</body>
+</html>

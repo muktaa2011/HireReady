@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.templates-container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.templates-title {
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.templates-title  {
+    background: linear-gradient(90deg,#8b5cf6,#ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.templates-subtitle {
+    color: #6b7280;
+    margin: 10px 0 40px;
+    max-width: 700px;
+}
+
+.template-card {
+    background: white;
+    border-radius: 22px;
+    padding: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    margin-bottom: 40px;
+}
+
+.template-preview {
+    height: 380px;
+    border-radius: 16px;
+    background: linear-gradient(180deg,#f8fafc,#e5e7eb);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.use-btn {
+    margin-bottom: 20px;
+    background: white;
+    color: #7c3aed;
+    border-radius: 14px;
+    padding: 14px 24px;
+    font-weight: 600;
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.template-name {
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 16px;
+}
+
+.template-desc {
+    color: #6b7280;
+    margin-top: 6px;
+}
+</style>
+
+<div class="templates-container">
+
+    <h1 class="templates-title">
+        Choose Your Template
+    </h1>
+
+    <p class="templates-subtitle">
+        All templates are ATS-optimized and designed to help you land interviews.
+        Pick one that matches your industry and style.
+    </p>
+
+    {% for template in templates %}
+    <div class="template-card">
+        <div class="template-preview">
+            <a href="{% url 'resume_builder' template.slug %}" class="use-btn">
+                Use This Template →
+            </a>
+        </div>
+
+        <div class="template-name">{{ template.name }}</div>
+        <div class="template-desc">{{ template.description }}</div>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

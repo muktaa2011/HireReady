@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.auth-wrapper {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-card {
+    background: white;
+    border-radius: 22px;
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+}
+
+.auth-title {
+    font-size: 34px;
+    font-weight: 700;
+    background: linear-gradient(90deg,#8b5cf6,#ec4899);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.auth-subtitle {
+    color: #6b7280;
+    margin: 8px 0 30px;
+}
+
+.input-group {
+    margin-bottom: 18px;
+}
+
+.input-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 14px;
+    background: #fafafa;
+}
+
+.input-box input {
+    border: none;
+    outline: none;
+    width: 100%;
+    background: transparent;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.btn-auth {
+    margin-top: 10px;
+    width: 100%;
+    background: linear-gradient(90deg,#8b5cf6,#ec4899);
+    color: white;
+    padding: 16px;
+    font-size: 18px;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 24px;
+    color: #6b7280;
+}
+
+.auth-footer a {
+    color: #8b5cf6;
+    font-weight: 600;
+}
+</style>
+
+<div class="auth-wrapper">
+    <form method="POST" class="auth-card">
+        {% csrf_token %}
+
+        <h1 class="auth-title">Create an account</h1>
+        <p class="auth-subtitle">
+            Enter your email below to create your account
+        </p>
+
+        {% if messages %}
+        <div style="margin-bottom:12px;">
+            {% for message in messages %}
+            <div style="color:#b91c1c; font-weight:600;">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="input-group">
+            <label>Email</label>
+            <div class="input-box">
+                ✉️
+                <input type="email" name="email" placeholder="you@example.com" value="{{ email|default:'' }}" required>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <div class="input-box">
+                🔒
+                <input type="password" name="password" placeholder="••••••••" required>
+            </div>
+        </div>
+
+        <button class="btn-auth">
+            Create Account →
+        </button>
+
+        <div class="auth-footer">
+            Already have an account?
+            <a href="{% url 'login' %}">Sign in</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

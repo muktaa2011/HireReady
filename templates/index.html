@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- HERO -->
+<div class="container" style="text-align:center;">
+    <div style="display:inline-block;padding:8px 16px;border-radius:20px;background:#ede9fe;color:#7c3aed;font-weight:600;">
+        ✨ AI-Powered Resume Builder
+    </div>
+
+    <h1 style="font-size:42px;margin:20px 0;">
+        Build a Resume <br>
+        That <span class="gradient-text">Gets You Hired</span>
+    </h1>
+
+    <p style="color:#666;font-size:18px;max-width:700px;margin:auto;">
+        Create ATS-optimized resumes with AI-powered suggestions.
+        Stand out to recruiters and land your dream job faster.
+    </p>
+
+    <div style="margin-top:30px;">
+        <a href="{% url 'dashboard' %}" class="btn-primary">Go to Dashboard →</a><br>
+        
+    </div>
+</div>
+
+<!-- FEATURES -->
+<div class="container">
+    <div class="card">
+        <div class="icon pink">⚡</div>
+        <h3>Job Matching</h3>
+        <p style="color:#666;margin-top:8px;">
+            Compare your resume against job descriptions and get tailored recommendations.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="icon green">⬇</div>
+        <h3>Easy Export</h3>
+        <p style="color:#666;margin-top:8px;">
+            Download your resume in PDF or DOCX format, optimized for ATS compatibility.
+        </p>
+    </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="container" style="text-align:center;">
+    <h2 style="font-size:32px;">How It <span class="gradient-text">Works</span></h2>
+    <p style="color:#666;margin-bottom:40px;">
+        Create your perfect resume in three simple steps
+    </p>
+
+    <div class="card">
+        <h1 style="opacity:0.1;">01</h1>
+        <h3>Enter Your Details</h3>
+        <p style="color:#666;">
+            Fill in your experience, education, and skills. Our smart form makes it easy.
+        </p>
+    </div>
+
+    <div class="card">
+        <h1 style="opacity:0.1;">02</h1>
+        <h3>AI Enhancement</h3>
+        <p style="color:#666;">
+            Let AI optimize your content with powerful action verbs and ATS-friendly keywords.
+        </p>
+    </div>
+
+    <div class="card">
+        <h1 style="opacity:0.1;">03</h1>
+        <h3>Export & Apply</h3>
+        <p style="color:#666;">
+            Download your polished resume and start applying to your dream jobs.
+        </p>
+    </div>
+</div>
+
+<!-- EVERYTHING YOU NEED -->
+<div class="container">
+    <h2 style="text-align:center;font-size:32px;">
+        Everything You Need to <span class="gradient-text">Stand Out</span>
+    </h2>
+    <p style="text-align:center;color:#666;margin-bottom:40px;">
+        Our AI-powered platform helps you create professional resumes that pass ATS systems.
+    </p>
+
+    <div class="card">
+        <div class="icon purple">✨</div>
+        <h3>AI-Powered Writing</h3>
+        <p style="color:#666;">
+            Get intelligent suggestions to improve your bullet points with action verbs and metrics.
+        </p>
+    </div>
+
+    <div class="card">
+        <div class="icon cyan">🎯</div>
+        <h3>ATS Score Analysis</h3>
+        <p style="color:#666;">
+            See exactly how your resume performs against Applicant Tracking Systems.
+        </p>
+    </div>
+</div>
+
+{% endblock %}

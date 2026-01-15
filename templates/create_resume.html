@@ -1,0 +1,490 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.form-container {
+    max-width: 900px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.form-card {
+     background: linear-gradient(90deg,#8b5cf6,#ec4899);
+    border-radius: 22px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.form-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 20px;
+   
+    
+   
+}
+
+.field-group {
+    margin-bottom: 18px;
+}
+
+.field-group label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.field-group input,
+.field-group textarea {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    background: #fafafa;
+}
+
+.submit-btn {
+    width: 100%;
+    background: linear-gradient(90deg,#8b5cf6,#ec4899);
+    color: white;
+    padding: 16px;
+    font-size: 18px;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Education table */
+.edu-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: #ffffff;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.edu-table th,
+.edu-table td {
+    border: 1px solid #e5e7eb;
+    padding: 10px;
+    font-size: 14px;
+    background: #f9fafb;
+}
+
+.edu-table th {
+    background: #f3f4ff;
+    font-weight: 600;
+    text-align: left;
+}
+
+.edu-qual {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.hidden-field {
+    display: none;
+}
+
+.edu-actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+}
+
+.pill-btn,
+.remove-btn {
+    background: #4f46e5;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.remove-btn {
+    background: #ef4444;
+}
+
+.dynamic-list {
+    margin-top: 10px;
+}
+
+.dynamic-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.dynamic-row input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #fafafa;
+    font-size: 14px;
+}
+
+.dynamic-actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+}
+</style>
+
+<div class="form-container">
+    <h1 class="form-title">Create Resume</h1>
+
+    {% if form.errors %}
+    <div style="background: #fee2e2; color: #991b1b; padding: 16px; border-radius: 12px; margin-bottom: 20px;">
+        <strong>Please fix the following errors:</strong>
+        <ul style="margin-top: 10px; margin-left: 20px;">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-card">
+    <h2 class="form-title">Personal Details</h2>
+
+    <div class="field-group">
+        <label>Full Name</label>
+        {{ form.full_name }}
+        {% if form.full_name.errors %}
+            <div style="color: #dc2626; font-size: 14px; margin-top: 5px;">{{ form.full_name.errors.0 }}</div>
+        {% endif %}
+    </div>
+
+    <div class="field-group">
+        <label>Email</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+            <div style="color: #dc2626; font-size: 14px; margin-top: 5px;">{{ form.email.errors.0 }}</div>
+        {% endif %}
+    </div>
+
+    <div class="field-group">
+        <label>Mobile</label>
+        {{ form.mobile }}
+        {% if form.mobile.errors %}
+            <div style="color: #dc2626; font-size: 14px; margin-top: 5px;">{{ form.mobile.errors.0 }}</div>
+        {% endif %}
+    </div>
+
+    <div class="field-group">
+        <label>LinkedIn</label>
+        {{ form.linkedin }}
+        {% if form.linkedin.errors %}
+            <div style="color: #dc2626; font-size: 14px; margin-top: 5px;">{{ form.linkedin.errors.0 }}</div>
+        {% endif %}
+    </div>
+
+    <div class="field-group">
+        <label>Photo (Optional)</label>
+        {{ form.photo }}
+        {% if form.photo.errors %}
+            <div style="color: #dc2626; font-size: 14px; margin-top: 5px;">{{ form.photo.errors.0 }}</div>
+        {% endif %}
+    </div>
+    <div class="field-group">
+        <label>DOB</label>
+        {{ form.dob }}
+        {% if form.dob.errors %}
+            <div style="color: #dc2626; font-size: 14px; margin-top: 5px;">{{ form.linkedin.errors.0 }}</div>
+        {% endif %}
+    </div>
+    <div class="field-group">
+        <label>Location</label>
+        {{ form.location }}
+        {% if form.location.errors %}
+            <div style="color: #dc2626; font-size: 14px; margin-top: 5px;">{{ form.location.errors.0 }}</div>
+        {% endif %}
+    </div>
+</div>
+
+
+        <div class="form-card">
+            <h2 class="form-title">Career Objective</h2>
+            {{ form.career_objective }}
+            {% if form.career_objective.errors %}
+                <div style="color: #dc2626; font-size: 14px; margin-top: 5px;">{{ form.career_objective.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-card">
+            <h2 class="form-title">Education</h2>
+
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>Qualification</th>
+                        <th>Year</th>
+                        <th>College</th>
+                        <th>University</th>
+                        <th>% / CGPA</th>
+                        <th>Class</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="education-body"></tbody>
+            </table>
+
+            <div class="edu-actions">
+                <button type="button" class="pill-btn" id="add-edu-row">+ Add Qualification</button>
+            </div>
+
+            <div class="hidden-field">
+                {{ form.edu_qualification }}
+                {{ form.edu_year }}
+                {{ form.edu_college }}
+                {{ form.edu_university }}
+                {{ form.edu_cgpa }}
+                {{ form.edu_class }}
+            </div>
+        </div>
+
+        <div class="form-card">
+            <h2 class="form-title">Skills</h2>
+            <div class="dynamic-list" id="skills-list"></div>
+            <div class="dynamic-actions">
+                <button type="button" class="pill-btn" data-add="skills">+ Add Skill</button>
+            </div>
+            <div class="hidden-field">{{ form.skills }}</div>
+        </div>
+
+        <div class="form-card">
+            <h2 class="form-title">Projects</h2>
+            <div class="dynamic-list" id="projects-list"></div>
+            <div class="dynamic-actions">
+                <button type="button" class="pill-btn" data-add="projects">+ Add Project</button>
+            </div>
+            <div class="hidden-field">{{ form.projects }}</div>
+        </div>
+
+        <div class="form-card">
+            <h2 class="form-title">Achievements</h2>
+            <div class="dynamic-list" id="achievements-list"></div>
+            <div class="dynamic-actions">
+                <button type="button" class="pill-btn" data-add="achievements">+ Add Achievement</button>
+            </div>
+            <div class="hidden-field">{{ form.achievements }}</div>
+        </div>
+
+        <div class="form-card">
+            <h2 class="form-title">Certifications</h2>
+            <div class="dynamic-list" id="certifications-list"></div>
+            <div class="dynamic-actions">
+                <button type="button" class="pill-btn" data-add="certifications">+ Add Certification</button>
+            </div>
+            <div class="hidden-field">{{ form.certifications }}</div>
+        </div>
+
+        <div class="form-card">
+            <h2 class="form-title">Languages</h2>
+            <div class="dynamic-list" id="languages-list"></div>
+            <div class="dynamic-actions">
+                <button type="button" class="pill-btn" data-add="languages">+ Add Language</button>
+            </div>
+            <div class="hidden-field">{{ form.languages }}</div>
+        </div>
+
+        <div class="form-card">
+            <h2 class="form-title">Hobbies</h2>
+            <div class="dynamic-list" id="hobbies-list"></div>
+            <div class="dynamic-actions">
+                <button type="button" class="pill-btn" data-add="hobbies">+ Add Hobby</button>
+            </div>
+            <div class="hidden-field">{{ form.hobbies }}</div>
+        </div>
+
+        <button type="submit" class="submit-btn">Next →</button>
+    </form>
+</div>
+
+<script>
+// Dynamic education rows + multi-entry lists
+(function () {
+    const eduBody = document.getElementById("education-body");
+    const eduHidden = {
+        qualification: document.getElementById("id_edu_qualification"),
+        year: document.getElementById("id_edu_year"),
+        college: document.getElementById("id_edu_college"),
+        university: document.getElementById("id_edu_university"),
+        cgpa: document.getElementById("id_edu_cgpa"),
+        classVal: document.getElementById("id_edu_class"),
+    };
+
+    function serializeEducation() {
+        const rows = [...eduBody.querySelectorAll("tr")].map((row) => {
+            return {
+                qualification: row.querySelector('[data-col="qualification"]').value.trim(),
+                year: row.querySelector('[data-col="year"]').value.trim(),
+                college: row.querySelector('[data-col="college"]').value.trim(),
+                university: row.querySelector('[data-col="university"]').value.trim(),
+                cgpa: row.querySelector('[data-col="cgpa"]').value.trim(),
+                classVal: row.querySelector('[data-col="class"]').value.trim(),
+            };
+        }).filter(r => Object.values(r).some(v => v));
+
+        const toLines = (key) => rows.map((r) => r[key] || "").join("\n");
+        eduHidden.qualification.value = toLines("qualification");
+        eduHidden.year.value = toLines("year");
+        eduHidden.college.value = toLines("college");
+        eduHidden.university.value = toLines("university");
+        eduHidden.cgpa.value = toLines("cgpa");
+        eduHidden.classVal.value = toLines("classVal");
+    }
+
+    function createCell(placeholder, dataKey, value = "") {
+        const td = document.createElement("td");
+        const input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = placeholder;
+        input.value = value;
+        input.dataset.col = dataKey;
+        input.style.width = "100%";
+        input.addEventListener("input", serializeEducation);
+        td.appendChild(input);
+        return td;
+    }
+
+    function addRow(prefill = {}) {
+        const tr = document.createElement("tr");
+        tr.appendChild(createCell("SSC / HSC / Diploma / Degree", "qualification", prefill.qualification || ""));
+        tr.appendChild(createCell("Year", "year", prefill.year || ""));
+        tr.appendChild(createCell("College", "college", prefill.college || ""));
+        tr.appendChild(createCell("University", "university", prefill.university || ""));
+        tr.appendChild(createCell("% / CGPA", "cgpa", prefill.cgpa || ""));
+        tr.appendChild(createCell("Class", "class", prefill.classVal || ""));
+
+        const actionTd = document.createElement("td");
+        const removeBtn = document.createElement("button");
+        removeBtn.type = "button";
+        removeBtn.className = "remove-btn";
+        removeBtn.textContent = "Remove";
+        removeBtn.addEventListener("click", () => {
+            tr.remove();
+            serializeEducation();
+        });
+        actionTd.appendChild(removeBtn);
+        tr.appendChild(actionTd);
+
+        eduBody.appendChild(tr);
+        serializeEducation();
+    }
+
+    // Add starter rows if none exist
+    const existingQualifications = (eduHidden.qualification.value || "").split("\n").filter(Boolean);
+    if (existingQualifications.length) {
+        const years = (eduHidden.year.value || "").split("\n");
+        const colleges = (eduHidden.college.value || "").split("\n");
+        const universities = (eduHidden.university.value || "").split("\n");
+        const cgpas = (eduHidden.cgpa.value || "").split("\n");
+        const classes = (eduHidden.classVal.value || "").split("\n");
+        existingQualifications.forEach((qual, idx) => {
+            addRow({
+                qualification: qual,
+                year: years[idx] || "",
+                college: colleges[idx] || "",
+                university: universities[idx] || "",
+                cgpa: cgpas[idx] || "",
+                classVal: classes[idx] || "",
+            });
+        });
+    } else {
+        addRow({ qualification: "SSC" });
+        addRow({ qualification: "HSC" });
+    }
+
+    document.getElementById("add-edu-row").addEventListener("click", () => addRow());
+
+    // Dynamic list fields (Skills, Projects, Achievements, Certifications, Languages, Hobbies)
+    const listFields = ["skills", "projects", "achievements", "certifications", "languages", "hobbies"];
+
+    function createListRow(fieldName, value = "") {
+        const row = document.createElement("div");
+        row.className = "dynamic-row";
+        row.dataset.field = fieldName;
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.value = value;
+        input.placeholder = `Enter ${fieldName.replace(/_/g, " ")}...`;
+        input.addEventListener("input", () => serializeList(fieldName));
+
+        const removeBtn = document.createElement("button");
+        removeBtn.type = "button";
+        removeBtn.className = "remove-btn";
+        removeBtn.textContent = "Remove";
+        removeBtn.addEventListener("click", () => {
+            row.remove();
+            serializeList(fieldName);
+        });
+
+        row.appendChild(input);
+        row.appendChild(removeBtn);
+        return row;
+    }
+
+    function serializeList(fieldName) {
+        const listContainer = document.getElementById(`${fieldName}-list`);
+        const hiddenField = document.getElementById(`id_${fieldName}`);
+        const rows = listContainer.querySelectorAll(".dynamic-row");
+        const values = Array.from(rows)
+            .map(row => row.querySelector("input").value.trim())
+            .filter(v => v);
+        hiddenField.value = values.join("\n");
+    }
+
+    function initializeList(fieldName) {
+        const listContainer = document.getElementById(`${fieldName}-list`);
+        const hiddenField = document.getElementById(`id_${fieldName}`);
+        const addBtn = document.querySelector(`[data-add="${fieldName}"]`);
+
+        // Load existing values
+        if (hiddenField && hiddenField.value) {
+            const existingValues = hiddenField.value.split("\n").filter(v => v.trim());
+            existingValues.forEach(value => {
+                const row = createListRow(fieldName, value.trim());
+                listContainer.appendChild(row);
+            });
+        } else {
+            // Add one empty row to start
+            const row = createListRow(fieldName);
+            listContainer.appendChild(row);
+        }
+
+        // Wire up add button
+        addBtn.addEventListener("click", () => {
+            const row = createListRow(fieldName);
+            listContainer.appendChild(row);
+            row.querySelector("input").focus();
+        });
+    }
+
+    // Initialize all list fields
+    listFields.forEach(initializeList);
+
+    // On submit, serialize everything
+    document.querySelector("form").addEventListener("submit", () => {
+        serializeEducation();
+        listFields.forEach(serializeList);
+    });
+})();
+</script>
+
+{% endblock %}

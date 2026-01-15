@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.templates-container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.templates-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.templates-title span {
+    background: linear-gradient(90deg,#8b5cf6,#ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.templates-subtitle {
+    color: #6b7280;
+    margin: 10px 0 40px;
+    max-width: 700px;
+}
+
+.template-card {
+    background: white;
+    border-radius: 22px;
+    padding: 30px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.template-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+}
+
+.template-preview {
+    height: 380px;
+    border-radius: 16px;
+    background: linear-gradient(180deg,#f8fafc,#e5e7eb);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.template-preview::before {
+    content: "📄";
+    font-size: 120px;
+    opacity: 0.3;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.use-btn {
+    margin-bottom: 20px;
+    background: linear-gradient(90deg,#8b5cf6,#ec4899);
+    color: white;
+    border-radius: 14px;
+    padding: 14px 24px;
+    font-weight: 600;
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.use-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+.template-name {
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 16px;
+    color: #1f1f1f;
+}
+
+.template-desc {
+    color: #6b7280;
+    margin-top: 6px;
+    line-height: 1.6;
+}
+</style>
+
+<div class="templates-container">
+
+    <h1 class="templates-title">
+        Choose Your <span>Template</span>
+    </h1>
+
+    <p class="templates-subtitle">
+        All templates are ATS-optimized and designed to help you land interviews.
+        Pick one that matches your industry and style.
+    </p>
+
+    <div class="template-card">
+        <div class="template-preview">
+            <a href="{% url 'resume_preview' resume.id 'professional_classic' %}" class="use-btn">
+                Use This Template →
+            </a>
+        </div>
+        <div class="template-name">Professional Classic</div>
+        <div class="template-desc">Best for corporate & ATS-friendly resumes. Clean, traditional layout that works well with applicant tracking systems.</div>
+    </div>
+
+    <div class="template-card">
+        <div class="template-preview">
+            <a href="{% url 'resume_preview' resume.id 'creative_minimal' %}" class="use-btn">
+                Use This Template →
+            </a>
+        </div>
+        <div class="template-name">Creative Minimal</div>
+        <div class="template-desc">Modern, clean & stylish for tech roles. Perfect for designers, developers, and creative professionals.</div>
+    </div>
+
+    <div class="template-card">
+        <div class="template-preview">
+            <a href="{% url 'resume_preview' resume.id 'modern_photo_style' %}" class="use-btn">
+                Use This Template →
+            </a>
+        </div>
+        <div class="template-name">Modern Photo Style</div>
+        <div class="template-desc">Photo-based resume with white background. Ideal for roles where personal presentation matters.</div>
+    </div>
+
+</div>
+
+{% endblock %}

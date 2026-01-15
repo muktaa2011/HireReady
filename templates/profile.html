@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.profile-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.profile-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 30px;
+    color: white;
+    text-align: center;
+}
+
+.profile-name {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.profile-email {
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+.resumes-section {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #1f2937;
+}
+
+.resume-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.resume-card {
+    background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+    border-radius: 16px;
+    padding: 25px;
+    border: 2px solid #e5e7eb;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.resume-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(102, 126, 234, 0.2);
+    border-color: #667eea;
+}
+
+.resume-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 10px;
+}
+
+.resume-email {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.resume-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e5e7eb;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.resume-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-view, .btn-pdf {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-view {
+    background: #667eea;
+    color: white;
+}
+
+.btn-view:hover {
+    background: #5568d3;
+}
+
+.btn-pdf {
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+}
+
+.btn-pdf:hover {
+    background: #667eea;
+    color: white;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6b7280;
+}
+
+.empty-state-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+.create-resume-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s;
+}
+
+.create-resume-btn:hover {
+    transform: translateY(-2px);
+}
+</style>
+
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="profile-name">👤 {{ user.first_name|default:user.username|title }} {{ user.last_name|default:"" }}</div>
+        <div class="profile-email">{{ user.email }}</div>
+    </div>
+
+    <div class="resumes-section">
+        <h2 class="section-title">📄 My Resumes ({{ total_resumes }})</h2>
+        
+        {% if resumes %}
+        <div class="resume-grid">
+            {% for resume in resumes %}
+            <div class="resume-card">
+                <div class="resume-name">{{ resume.full_name }}</div>
+                <div class="resume-email">{{ resume.email }}</div>
+                
+                <div class="resume-meta">
+                    <span>📅 {{ resume.created_at|date:"M d, Y" }}</span>
+                    {% if resume.ats_score %}
+                    <span>⭐ ATS: {{ resume.ats_score }}/100</span>
+                    {% endif %}
+                </div>
+                
+                <div class="resume-actions">
+                    <a href="{% url 'select_template' resume.id %}" class="btn-view">View & Edit</a>
+                    <a href="{% url 'resume_preview' resume.id 'professional_classic' %}" class="btn-pdf">Preview</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">📄</div>
+            <h3 style="font-size: 24px; margin-bottom: 10px; color: #1f2937;">No Resumes Yet</h3>
+            <p style="font-size: 16px;">Create your first resume to get started!</p>
+            <a href="{% url 'create_resume' %}" class="create-resume-btn">+ Create New Resume</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

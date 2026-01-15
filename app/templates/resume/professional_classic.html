@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ r.full_name }} - Resume</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Arial", "Helvetica", sans-serif;
+            background: #ffffff;
+            color: #000;
+            line-height: 1.5;
+        }
+
+        .resume-wrapper {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            background: #ffffff;
+            position: relative;
+        }
+
+        /* Header Section with Name and Title Bar */
+        .header-section {
+            padding: 30px 40px 0 40px;
+        }
+
+        .name-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .name-left {
+            flex: 1;
+        }
+
+        .name-small {
+            font-size: 24px;
+            font-weight: 400;
+            color: #000;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .name-large {
+            font-size: 56px;
+            font-weight: 700;
+            color: #000;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        .photo-container {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #000;
+            flex-shrink: 0;
+        }
+
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .title-bar {
+            background: #000;
+            color: #fff;
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        /* Two Column Layout */
+        .content-container {
+            display: flex;
+            padding: 30px 40px 40px 40px;
+        }
+
+        .left-column {
+            width: 60%;
+            padding-right: 30px;
+        }
+
+        .right-column {
+            width: 40%;
+            padding-left: 30px;
+            border-left: 1px solid #ddd;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-content {
+            font-size: 13px;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        .experience-item, .education-item {
+            margin-bottom: 20px;
+        }
+
+        .item-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .item-company, .item-school {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 3px;
+        }
+
+        .item-date {
+            font-size: 12px;
+            color: #777;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .item-description {
+            font-size: 13px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .item-description ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .item-description li {
+            margin-bottom: 6px;
+        }
+
+        .contact-item {
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: #333;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .contact-icon {
+            margin-right: 10px;
+            width: 16px;
+            flex-shrink: 0;
+        }
+
+        .skills-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .skills-list li {
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 8px;
+            padding-left: 0;
+        }
+
+        .divider {
+            height: 1px;
+            background: #ddd;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="resume-wrapper">
+    <!-- Header Section -->
+    <div class="header-section">
+        <div class="name-row">
+            <div class="name-left">
+                {% if first_name %}
+                    <div class="name-small">{{ first_name|upper }}</div>
+                {% endif %}
+                {% if last_name %}
+                    <div class="name-large">{{ last_name|upper }}</div>
+                {% elif first_name %}
+                    <div class="name-large">{{ first_name|upper }}</div>
+                {% endif %}
+            </div>
+            {% if r.photo %}
+            <div class="photo-container">
+                <img src="{{ r.photo.url }}" alt="{{ r.full_name }}">
+            </div>
+            {% endif %}
+        </div>
+        <div class="title-bar">
+            CREATIVE DIRECTOR
+        </div>
+    </div>
+
+    <!-- Two Column Content -->
+    <div class="content-container">
+        <!-- Left Column -->
+        <div class="left-column">
+            <div class="section">
+                <div class="section-title">Summary</div>
+                <div class="section-content">
+                    {{ r.career_objective|default:"An experienced professional with a strong background in the field." }}
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Working Experience</div>
+                {% if projects_list %}
+                    {% for project in projects_list %}
+                    <div class="experience-item">
+                        <div class="item-title">Position Title</div>
+                        <div class="item-company">Company Name</div>
+                        <div class="item-date">2016 - Present</div>
+                        <div class="item-description">
+                            <ul>
+                                <li>{{ project }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="experience-item">
+                        <div class="item-title">CREATIVE DIRECTOR</div>
+                        <div class="item-company">Company Name</div>
+                        <div class="item-date">2016 - Present</div>
+                        <div class="item-description">
+                            <ul>
+                                <li>Expert at maintaining relations with corporate clients</li>
+                                <li>Responsible for key accounts worth</li>
+                                <li>Managed multi-platform regional and national campaigns</li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="section">
+                <div class="section-title">Education</div>
+                {% if education_rows %}
+                    {% for edu in education_rows %}
+                    <div class="education-item">
+                        <div class="item-title">{{ edu.qualification|default:"Degree"|upper }}</div>
+                        <div class="item-school">{{ edu.university|default:edu.college|default:"Institution Name" }}</div>
+                        <div class="item-date">{{ edu.year|default:"Year" }}</div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="education-item">
+                        <div class="item-title">DEGREE</div>
+                        <div class="item-school">Institution Name</div>
+                        <div class="item-date">Year</div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="right-column">
+            <div class="section">
+                <div class="section-title">Contact</div>
+                {% if r.mobile %}
+                <div class="contact-item">
+                    <span class="contact-icon">📞</span>
+                    <span>{{ r.mobile }}</span>
+                </div>
+                {% endif %}
+                {% if r.email %}
+                <div class="contact-item">
+                    <span class="contact-icon">✉</span>
+                    <span>{{ r.email }}</span>
+                </div>
+                {% endif %}
+                {% if r.linkedin %}
+                <div class="contact-item">
+                    <span class="contact-icon">🔗</span>
+                    <span>{{ r.linkedin }}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="section">
+                <div class="section-title">Skills</div>
+                <ul class="skills-list">
+                    {% if skills_list %}
+                        {% for skill in skills_list %}
+                        <li>{{ skill }}</li>
+                        {% endfor %}
+                    {% else %}
+                        <li>{{ r.skills|default:"Add your skills here" }}</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="margin-top: 30px; text-align: center; padding: 20px;">
+    <a href="{% url 'resume_pdf' r.id template_slug %}" style="display: inline-block; padding: 12px 24px; background: #000; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+        Generate PDF
+    </a>
+</div>
+
+</body>
+</html>

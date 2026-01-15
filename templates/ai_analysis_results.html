@@ -1,0 +1,396 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.analysis-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.analysis-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.analysis-title {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.analysis-subtitle {
+    color: #6b7280;
+    font-size: 18px;
+}
+
+.section-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.company-card {
+    background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 20px;
+    border-left: 4px solid #667eea;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.company-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+}
+
+.company-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 8px;
+}
+
+.company-location {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.company-section {
+    margin-bottom: 15px;
+}
+
+.company-section-title {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.company-section-content {
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+.study-resources-list {
+    list-style: none;
+    padding: 0;
+}
+
+.study-resources-list li {
+    padding: 8px 0;
+    padding-left: 25px;
+    position: relative;
+    color: #4b5563;
+}
+
+.study-resources-list li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #667eea;
+    font-weight: bold;
+}
+
+.study-plan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.study-plan-card {
+    background: linear-gradient(135deg, #fff5f5 0%, #fff0f5 100%);
+    border-radius: 12px;
+    padding: 20px;
+    border-left: 4px solid #ec4899;
+}
+
+.study-plan-card h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ec4899;
+    margin-bottom: 12px;
+}
+
+.weekly-schedule-item {
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+.weekly-schedule-item .day {
+    font-weight: 600;
+    color: #667eea;
+    margin-bottom: 8px;
+}
+
+.course-card, .project-card, .cert-card {
+    background: white;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 15px;
+    border: 1px solid #e5e7eb;
+    transition: border-color 0.2s;
+}
+
+.course-card:hover, .project-card:hover, .cert-card:hover {
+    border-color: #667eea;
+}
+
+.course-name, .project-title, .cert-name {
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.course-platform, .project-tech, .cert-issuer {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #667eea;
+    color: white;
+    border-radius: 10px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    transition: background 0.2s;
+}
+
+.back-btn:hover {
+    background: #5568d3;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+.badge-beginner {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.badge-intermediate {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.badge-advanced {
+    background: #fee2e2;
+    color: #991b1b;
+}
+</style>
+
+<div class="analysis-container">
+    <a href="{% url 'dashboard' %}" class="back-btn">
+        ← Back to Dashboard
+    </a>
+
+    <div class="analysis-header">
+        <h1 class="analysis-title">🤖 AI Career Analysis Results</h1>
+        <p class="analysis-subtitle">Personalized recommendations based on your resume</p>
+    </div>
+
+    <!-- Top Companies Section -->
+    {% if top_companies %}
+    <div class="section-card">
+        <h2 class="section-title">
+            <span>🏢</span>
+            Top 10 Company Recommendations
+        </h2>
+        
+        {% for company in top_companies %}
+        <div class="company-card">
+            <div class="company-name">{{ forloop.counter }}. {{ company.name }}</div>
+            <div class="company-location">📍 {{ company.location|default:"Location not specified" }}</div>
+            
+            <div class="company-section">
+                <div class="company-section-title">Why This Company Matches You:</div>
+                <div class="company-section-content">{{ company.match_reason|default:"Good match based on your profile" }}</div>
+            </div>
+            
+            <div class="company-section">
+                <div class="company-section-title">Hiring Process:</div>
+                <div class="company-section-content">
+                    {% if company.hiring_process %}
+                        {{ company.hiring_process|linebreaks }}
+                    {% else %}
+                        Standard hiring process (Application → Interview → Offer)
+                    {% endif %}
+                </div>
+            </div>
+            
+            {% if company.study_resources %}
+            <div class="company-section">
+                <div class="company-section-title">Study Resources:</div>
+                <ul class="study-resources-list">
+                    {% for resource in company.study_resources %}
+                    <li>{{ resource }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Study Plan Section -->
+    {% if study_plan %}
+    <div class="section-card">
+        <h2 class="section-title">
+            <span>📚</span>
+            Personalized Study Plan
+        </h2>
+        
+        {% if study_plan.overview %}
+        <div style="background: #f0f9ff; padding: 20px; border-radius: 12px; margin-bottom: 25px; border-left: 4px solid #0ea5e9;">
+            <h3 style="font-size: 18px; font-weight: 600; color: #0c4a6e; margin-bottom: 10px;">Overview</h3>
+            <p style="color: #075985; line-height: 1.7;">{{ study_plan.overview }}</p>
+        </div>
+        {% endif %}
+        
+        {% if study_plan.timeline %}
+        <div style="margin-bottom: 25px;">
+            <h3 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 10px;">⏱️ Suggested Timeline</h3>
+            <p style="color: #4b5563; font-size: 16px;">{{ study_plan.timeline }}</p>
+        </div>
+        {% endif %}
+        
+        {% if study_plan.skill_gaps %}
+        <div style="margin-bottom: 25px;">
+            <h3 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 15px;">🎯 Skill Gaps to Address</h3>
+            <ul class="study-resources-list">
+                {% for skill in study_plan.skill_gaps %}
+                <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        
+        {% if study_plan.weekly_schedule %}
+        <div style="margin-bottom: 25px;">
+            <h3 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 15px;">📅 Weekly Schedule</h3>
+            {% for day_schedule in study_plan.weekly_schedule %}
+            <div class="weekly-schedule-item">
+                <div class="day">{{ day_schedule.day|default:"Day" }}</div>
+                {% if day_schedule.topics %}
+                <div style="margin-bottom: 6px;">
+                    <strong>Topics:</strong> {{ day_schedule.topics|join:", " }}
+                </div>
+                {% endif %}
+                {% if day_schedule.hours %}
+                <div style="margin-bottom: 6px;">
+                    <strong>Study Hours:</strong> {{ day_schedule.hours }} hours
+                </div>
+                {% endif %}
+                {% if day_schedule.activities %}
+                <div style="color: #4b5563;">
+                    <strong>Activities:</strong> {{ day_schedule.activities }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% if study_plan.recommended_courses %}
+        <div style="margin-bottom: 25px;">
+            <h3 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 15px;">🎓 Recommended Courses</h3>
+            {% for course in study_plan.recommended_courses %}
+            <div class="course-card">
+                <div class="course-name">{{ course.name|default:"Course Name" }}</div>
+                {% if course.platform %}
+                <div class="course-platform">Platform: {{ course.platform }}</div>
+                {% endif %}
+                {% if course.duration %}
+                <div class="course-platform">Duration: {{ course.duration }}</div>
+                {% endif %}
+                {% if course.description %}
+                <div style="color: #4b5563; margin-top: 8px; line-height: 1.6;">{{ course.description }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% if study_plan.practice_projects %}
+        <div style="margin-bottom: 25px;">
+            <h3 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 15px;">💻 Practice Projects</h3>
+            {% for project in study_plan.practice_projects %}
+            <div class="project-card">
+                <div class="project-title">{{ project.title|default:"Project Title" }}</div>
+                {% if project.technologies %}
+                <div class="project-tech">Technologies: {{ project.technologies|join:", " }}</div>
+                {% endif %}
+                {% if project.difficulty %}
+                <span class="badge badge-{{ project.difficulty|lower }}">{{ project.difficulty }}</span>
+                {% endif %}
+                {% if project.description %}
+                <div style="color: #4b5563; margin-top: 8px; line-height: 1.6;">{{ project.description }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% if study_plan.certifications %}
+        <div>
+            <h3 style="font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 15px;">🏆 Recommended Certifications</h3>
+            {% for cert in study_plan.certifications %}
+            <div class="cert-card">
+                <div class="cert-name">{{ cert.name|default:"Certification Name" }}</div>
+                {% if cert.issuer %}
+                <div class="cert-issuer">Issued by: {{ cert.issuer }}</div>
+                {% endif %}
+                {% if cert.importance %}
+                <div style="color: #4b5563; margin-top: 8px; line-height: 1.6;">{{ cert.importance }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Empty State -->
+    {% if not top_companies and not study_plan %}
+    <div class="section-card" style="text-align: center; padding: 60px 20px;">
+        <h2 style="font-size: 24px; color: #6b7280; margin-bottom: 10px;">No Analysis Data Available</h2>
+        <p style="color: #9ca3af;">Please try analyzing your resume again.</p>
+        <a href="{% url 'dashboard' %}" class="back-btn" style="margin-top: 20px;">Go to Dashboard</a>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
